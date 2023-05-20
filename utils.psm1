@@ -77,4 +77,6 @@ function EnviarEmail {
     }
 }
 
+# ------------------------------------------------
+
 Export-ModuleMember -Function EnviarEmail;
