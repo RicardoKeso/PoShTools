@@ -5,7 +5,7 @@
     UltimaAtualizacao: 20230519
 #>
 
-function EnviarEmail {
+function Utils_EnviarEmail {
 
     <#
     .NOTES
@@ -79,4 +79,4 @@ function EnviarEmail {
 
 # -------------------------------------------------_
 
-Export-ModuleMember -Function EnviarEmail;
+Export-ModuleMember -Function Utils_EnviarEmail;
