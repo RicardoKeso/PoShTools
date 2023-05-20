@@ -17,7 +17,7 @@ function EnviarEmail {
     .SYNOPSIS 
 
     .DESCRIPTION
-        Enviar email 
+        Enviar E-Mail 
 
     .EXAMPLE
         EnviarEmail -remetente "teste@teste.com" -destinatario "ricardokeso@ricardokeso.com" -titulo "teste" -mensagem "Funciona!!!" -senhaRemetente "senhaAqui" -nomeRemetente "TESTE";
