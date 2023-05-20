@@ -77,6 +77,6 @@ function Utils_EnviarEmail {
     }
 }
 
-# -------------------------------------------------_
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_EnviarEmail;
