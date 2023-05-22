@@ -5,7 +5,7 @@
     UltimaAtualizacao: 20230519
 #>
 
-function Utils_GetSHA256 {
+function Utils_GetSHA256 { # Versoes do posh < 3 não contem a funcao get-filehash
     param (
         [string]$caminho
     );
@@ -13,7 +13,6 @@ function Utils_GetSHA256 {
     $sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider;
     $hash = [System.BitConverter]::ToString($sha256.ComputeHash([System.IO.File]::ReadAllBytes($caminho)));
     
-    # return @{"Algorithm"="SHA256"; "Path"=$caminho; "Hash"=$hash.Replace("-", "");};
     return $hash.Replace("-", "");
 }
 
