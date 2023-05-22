@@ -90,7 +90,7 @@ function Utils_EnviarEmail {
     }
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
