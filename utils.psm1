@@ -5,6 +5,19 @@
     UltimaAtualizacao: 20230519
 #>
 
+function Utils_GetSHA256 {
+    param (
+        [string]$caminho
+    );
+
+    $sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider;
+    $hash = [System.BitConverter]::ToString($sha256.ComputeHash([System.IO.File]::ReadAllBytes($caminho)));
+    
+    # return @{"Algorithm"="SHA256"; "Path"=$caminho; "Hash"=$hash.Replace("-", "");};
+    return $hash.Replace("-", "");
+}
+
+
 function Utils_EnviarEmail {
 
     <#
@@ -77,6 +90,7 @@ function Utils_EnviarEmail {
     }
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - |
+# - - - - - - - - - - - - - - - - - - - - - - - - -
 
+Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
