@@ -93,3 +93,34 @@ function Utils_EnviarEmail {
 
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
+
+
+<#
+function DownUtils_RK {
+    param (
+        [string]$caminho
+    );
+
+    $arquivo = "utils.psm1";
+    $down = "https://raw.githubusercontent.com/RicardoKeso/PoShTools/master/$($arquivo)";
+
+    try {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12;
+        (Invoke-WebRequest -Uri $down).Content | Out-File ($env:Temp + "\" + $arquivo);
+        Import-Module ($env:Temp + "\" + $arquivo) -Force;
+
+        if ( -not (Test-Path -Path ($caminho + $arquivo)) ) {
+            Copy-Item -Path ($env:Temp + "\" + $arquivo) -Destination $caminho;
+        }
+        elseif ( (Utils_GetSHA256 -caminho ($env:Temp + "\" + $arquivo)) -ne (Utils_GetSHA256 -caminho ($caminho + $arquivo)) ) {
+            Copy-Item -Path ($env:Temp + "\" + $arquivo) -Destination $caminho -Force;
+        }
+
+        return $arquivo;
+    }
+    catch {
+        "$(Get-Date) - Falha no download do arquivo: $($arquivo)" | Out-File ($caminho + "log.txt") -Append;
+        return $null;
+    }
+}
+#>
