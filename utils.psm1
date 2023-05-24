@@ -16,7 +16,6 @@ function Utils_GetSHA256 { # Versoes do posh < 3 não contem a funcao get-fileha
     return $hash.Replace("-", "");
 }
 
-
 function Utils_EnviarEmail {
 
     <#
@@ -89,14 +88,41 @@ function Utils_EnviarEmail {
     }
 }
 
+function Utils_Compactar_7Zip {
+    param (
+        [string]$arquivoDestino,
+        [string[]]$arquivosOrigem
+    );
+
+    $arquivoDestino = $($arquivoDestino + ".7z");
+    $argumentos = @("a", "-bd", "-mmt8", "-mx1", "-t7z", "-m0=lzma2", $arquivoDestino, $arquivosOrigem);
+    $compactador = "C:\Program Files\7-Zip\7z.exe";
+
+    if (Test-Path $compactador) {
+        try {
+            & $compactador $argumentos;
+            return $true;
+        }
+        catch {
+            $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
+            return $false;
+        }
+    }
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
+Export-ModuleMember -Function Utils_Compactar_7Zip;
+
 
 
 <#
+$caminho = "";
+
 function DownUtils_RK {
+
     param (
         [string]$caminho
     );
@@ -122,5 +148,11 @@ function DownUtils_RK {
         "$(Get-Date) - Falha no download do arquivo: $($arquivo)" | Out-File ($caminho + "log.txt") -Append;
         return $null;
     }
+}
+
+$arquivo = DownUtils_RK -caminho $caminho;
+
+if (Test-Path ($caminho + $arquivo)) {
+    Import-Module ($caminho + $arquivo) -Force;
 }
 #>
