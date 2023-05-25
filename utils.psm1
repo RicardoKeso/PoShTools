@@ -51,29 +51,29 @@ function Utils_EnviarEmail {
     $poshVersion = ($true, $false)[!($PSVersionTable["PSVersion"].Major -eq 2)];
     $SMTPSrv = "smtp.gmail.com";
     $SMTPPorta = "587";
-
-    if (!$poshVersion){
-        try {
-            $senhaSec = ConvertTo-SecureString -String $senhaRemetente -ErrorAction Stop;
-            $credencial = New-Object System.Management.Automation.PSCredential($remetente, $senhaSec);
-        } catch {
-            Write-Output -InputObject "A senha esta incorreta ou nao esta criptografada.";
-            Break;
-        }
-    } else {
-        $credencial = New-Object System.Net.NetworkCredential($remetente, $senhaRemetente);
-    }
-
-    $mensagem += "`n`n`nEmail enviado por: ($($env:ComputerName + " \ " + $env:UserName)).";
-
-    $message = New-Object System.Net.Mail.MailMessage;
-    $message.subject = $titulo;
-    $message.body = $mensagem;
-    $message.IsBodyHtml = $false;
-    $message.to.add($destinatario);
-    $message.from = $nomeRemetente + " " + $remetente;
-    if($anexo){$message.attachments.add($anexo)}
     Write-Output -InputObject "ok";
+    # if (!$poshVersion){
+    #     try {
+    #         $senhaSec = ConvertTo-SecureString -String $senhaRemetente -ErrorAction Stop;
+    #         $credencial = New-Object System.Management.Automation.PSCredential($remetente, $senhaSec);
+    #     } catch {
+    #         Write-Output -InputObject "A senha esta incorreta ou nao esta criptografada.";
+    #         Break;
+    #     }
+    # } else {
+    #     $credencial = New-Object System.Net.NetworkCredential($remetente, $senhaRemetente);
+    # }
+
+    # $mensagem += "`n`n`nEmail enviado por: ($($env:ComputerName + " \ " + $env:UserName)).";
+
+    # $message = New-Object System.Net.Mail.MailMessage;
+    # $message.subject = $titulo;
+    # $message.body = $mensagem;
+    # $message.IsBodyHtml = $false;
+    # $message.to.add($destinatario);
+    # $message.from = $nomeRemetente + " " + $remetente;
+    # if($anexo){$message.attachments.add($anexo)}
+    
     # try {
     #     $smtp = New-Object System.Net.Mail.SmtpClient($SMTPSrv, $SMTPPorta);
     #     $smtp.UseDefaultCredentials = $false;
