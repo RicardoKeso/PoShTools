@@ -112,11 +112,52 @@ function Utils_Compactar_7Zip {
     }
 }
 
+function Utils_CriptografarSenha {
+
+    <#
+    .NOTES
+        Nome            : Funcao: CriptografarSenha
+        Autor           : RicardoKeso (ricardokeso@ricardokeso.com)
+        Prerequisitos   : PowerShell V2.0 ou Superior
+        Criacao         : 20210428
+
+    .SYNOPSIS 
+
+    .DESCRIPTION
+        Criptografar senha convertendo-a em StringSegura em texto plano;
+        Esta criptografia nao pode ser revertida atraves de funcoes nativas;
+        Utiliza como parametro interno a dataHora do host, gerando senhas diferentes porem validas;
+        Cada host gera uma criptografia diferente para a mesma senha;
+        A criptografia so e valida para para o usuario que a gerou;
+
+    .EXAMPLE
+        CriptografarSenha -senha "suaSenha";
+
+    .LINK
+        https://www.ricardokeso.com
+        
+    #>
+
+    param (
+        [String]$senha
+    );
+
+    if ($senha) {
+        $pwdSeg = ConvertTo-SecureString -AsPlainText $senha -Force;
+    } 
+    else {
+        $pwdSeg = Read-Host -AsSecureString -Prompt "Senha a ser criptografada";
+    }
+    
+    Write-Output -InputObject $(ConvertFrom-SecureString -SecureString $pwdSeg);
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
 Export-ModuleMember -Function Utils_Compactar_7Zip;
+Export-ModuleMember -Function Utils_CriptografarSenha;
 
 <#
 $caminhoScripts = "";
