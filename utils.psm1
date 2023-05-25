@@ -85,8 +85,8 @@ function Utils_EnviarEmail {
     }
     catch {
         # Write-Output "Credenciais incorretas.";
-        $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
-        Break;
+        # $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
+        Write-Output -InputObject ($Error[0].Exception.Message);
     }
 }
 
