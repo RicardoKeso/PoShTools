@@ -44,7 +44,7 @@ function Utils_EnviarEmail {
         [parameter(Mandatory = $true)][String]$titulo, 
         [parameter(Mandatory = $true)][String]$mensagem, 
         [parameter(Mandatory = $true)][String]$senhaRemetente,
-        [String]$nomeRemetente,
+        [parameter(Mandatory = $true)][String]$nomeRemetente,
         [String]$anexo
     );
 
@@ -80,15 +80,18 @@ function Utils_EnviarEmail {
         $smtp.Credentials = $credencial;
         $smtp.EnableSsl = $true;
         $smtp.send($message);
+
         Write-Output -InputObject "Email enviado.";
     }
     catch {
-        Write-Output "Credenciais incorretas.";
+        # Write-Output "Credenciais incorretas.";
+        $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
         Break;
     }
 }
 
 function Utils_Compactar_7Zip {
+    "ok" | Out-File -FilePath "\\sasf04w\E$\totvs\datasul\dts-1\bancos\bkp-online\Temp\log.txt";
     param (
         [string]$arquivoDestino,
         [string[]]$arquivosOrigem
@@ -119,7 +122,7 @@ Export-ModuleMember -Function Utils_Compactar_7Zip;
 
 
 <#
-$caminho = "";
+$caminhoScripts = "";
 
 function DownUtils_RK {
 
@@ -150,9 +153,9 @@ function DownUtils_RK {
     }
 }
 
-$arquivo = DownUtils_RK -caminho $caminho;
+$arquivo = DownUtils_RK -caminho $caminhoScripts;
 
-if (Test-Path ($caminho + $arquivo)) {
-    Import-Module ($caminho + $arquivo) -Force;
+if (Test-Path ($caminhoScripts + $arquivo)) {
+    Import-Module ($caminhoScripts + $arquivo) -Force;
 }
 #>
