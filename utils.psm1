@@ -57,7 +57,7 @@ function Utils_EnviarEmail {
             $senhaSec = ConvertTo-SecureString -String $senhaRemetente -ErrorAction Stop;
             $credencial = New-Object System.Management.Automation.PSCredential($remetente, $senhaSec);
         } catch {
-            Write-Output "A senha esta incorreta ou nao esta criptografada.";
+            Write-Output -InputObject "A senha esta incorreta ou nao esta criptografada.";
             Break;
         }
     } else {
@@ -73,21 +73,21 @@ function Utils_EnviarEmail {
     $message.to.add($destinatario);
     $message.from = $nomeRemetente + " " + $remetente;
     if($anexo){$message.attachments.add($anexo)}
+    Write-Output -InputObject "ok";
+    # try {
+    #     $smtp = New-Object System.Net.Mail.SmtpClient($SMTPSrv, $SMTPPorta);
+    #     $smtp.UseDefaultCredentials = $false;
+    #     $smtp.Credentials = $credencial;
+    #     $smtp.EnableSsl = $true;
+    #     $smtp.send($message);
 
-    try {        
-        $smtp = New-Object System.Net.Mail.SmtpClient($SMTPSrv, $SMTPPorta);
-        $smtp.UseDefaultCredentials = $false;
-        $smtp.Credentials = $credencial;
-        $smtp.EnableSsl = $true;
-        $smtp.send($message);
-
-        Write-Output -InputObject "Email enviado.";
-    }
-    catch {
-        # Write-Output "Credenciais incorretas.";
-        # $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
-        Write-Output -InputObject ($Error[0].Exception.Message);
-    }
+    #     Write-Output -InputObject "Email enviado.";
+    # }
+    # catch {
+    #     # Write-Output "Credenciais incorretas.";
+    #     # $Error[0].Exception.Message | Out-File $([string]$MyInvocation.MyCommand + ".log");
+    #     Write-Output -InputObject ($Error[0].Exception.Message);
+    # }
 }
 
 function Utils_Compactar_7Zip {
