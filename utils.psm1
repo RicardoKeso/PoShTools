@@ -91,7 +91,6 @@ function Utils_EnviarEmail {
 }
 
 function Utils_Compactar_7Zip {
-    "ok" | Out-File -FilePath "\\sasf04w\E$\totvs\datasul\dts-1\bancos\bkp-online\Temp\log.txt";
     param (
         [string]$arquivoDestino,
         [string[]]$arquivosOrigem
@@ -118,8 +117,6 @@ function Utils_Compactar_7Zip {
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
 Export-ModuleMember -Function Utils_Compactar_7Zip;
-
-
 
 <#
 $caminhoScripts = "";
