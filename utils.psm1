@@ -160,6 +160,9 @@ Export-ModuleMember -Function Utils_Compactar_7Zip;
 Export-ModuleMember -Function Utils_CriptografarSenha;
 
 <#
+
+# Funcao para realizar o download desse script automaticamente
+
 $caminhoScripts = "";
 
 function DownUtils_RK {
