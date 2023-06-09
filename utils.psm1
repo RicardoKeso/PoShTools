@@ -5,7 +5,8 @@
     UltimaAtualizacao: 20230519
 #>
 
-function Utils_GetSHA256 { # Versoes do posh < 3 não contem a funcao get-filehash
+function Utils_GetSHA256 {
+    # Versoes do posh < 3 não contem a funcao get-filehash
     param (
         [string]$caminho
     );
@@ -52,15 +53,17 @@ function Utils_EnviarEmail {
     $SMTPSrv = "smtp.gmail.com";
     $SMTPPorta = "587";
 
-    if (!$poshVersion){
+    if (!$poshVersion) {
         try {
             $senhaSec = ConvertTo-SecureString -String $senhaRemetente -ErrorAction Stop;
             $credencial = New-Object System.Management.Automation.PSCredential($remetente, $senhaSec);
-        } catch {
+        }
+        catch {
             Write-Output -InputObject "A senha esta incorreta ou nao esta criptografada.";
             Break;
         }
-    } else {
+    }
+    else {
         $credencial = New-Object System.Net.NetworkCredential($remetente, $senhaRemetente);
     }
 
@@ -72,7 +75,7 @@ function Utils_EnviarEmail {
     $message.IsBodyHtml = $false;
     $message.to.add($destinatario);
     $message.from = $nomeRemetente + " " + $remetente;
-    if($anexo){$message.attachments.add($anexo)}
+    if ($anexo) { $message.attachments.add($anexo) }
 
     try {
         $smtp = New-Object System.Net.Mail.SmtpClient($SMTPSrv, $SMTPPorta);
@@ -124,11 +127,11 @@ function Utils_CriptografarSenha {
     .SYNOPSIS 
 
     .DESCRIPTION
-        Criptografar senha convertendo-a em StringSegura em texto plano;
-        Esta criptografia nao pode ser revertida atraves de funcoes nativas;
-        Utiliza como parametro interno a dataHora do host, gerando senhas diferentes porem validas;
-        Cada host gera uma criptografia diferente para a mesma senha;
-        A criptografia so e valida para para o usuario que a gerou;
+        1-Criptografar senha convertendo-a em StringSegura em texto plano;
+        2-Utiliza como parametro interno a dataHora do host, gerando senhas diferentes porem validas;
+        3-Cada host gera uma criptografia diferente para a mesma senha;
+        4-A criptografia so e valida para para o usuario que a gerou;
+        5-So pode ser descriptografada obdecendo os itens 3 e 4 desta lista;
 
     .EXAMPLE
         CriptografarSenha -senha "suaSenha";
@@ -152,12 +155,53 @@ function Utils_CriptografarSenha {
     Write-Output -InputObject $(ConvertFrom-SecureString -SecureString $pwdSeg);
 }
 
+function Utils_DescriptografarSenha {
+
+    <#
+    .NOTES
+        Nome            : Funcao: DescriptografarSenha
+        Autor           : RicardoKeso (ricardokeso@ricardokeso.com)
+        Prerequisitos   : PowerShell V2.0 ou Superior
+        Criacao         : 20230607
+
+    .SYNOPSIS 
+
+    .DESCRIPTION
+        1-Desriptografar senha a partir do texto plano resultante de StringSegura;
+        2-Cada host gera uma criptografia diferente para a mesma senha;
+        3-A criptografia so e valida para para o usuario que a gerou;
+        4-So pode ser descriptografada obdecendo os itens 2 e 3 desta lista;
+
+    .EXAMPLE
+        DescriptografarSenha -criptoPlana "stringSegura";
+
+    .LINK
+        https://www.ricardokeso.com
+        
+    #>
+
+    param (
+        $criptoPlana
+    );
+
+    try {
+        if ($criptoPlana) {
+            $objCripto = $criptoPlana | ConvertTo-SecureString
+            return [Runtime.InteropServices.Marshal]::PtrToStringAuto([Runtime.InteropServices.Marshal]::SecureStringToBSTR($objCripto));
+        } 
+    }
+    catch {
+        $Error[0].Exception.Message;
+    }
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
 Export-ModuleMember -Function Utils_EnviarEmail;
 Export-ModuleMember -Function Utils_Compactar_7Zip;
 Export-ModuleMember -Function Utils_CriptografarSenha;
+Export-ModuleMember -Function Utils_DescriptografarSenha;
 
 <#
 
