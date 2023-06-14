@@ -67,7 +67,7 @@ function Utils_EnviarEmail {
         $credencial = New-Object System.Net.NetworkCredential($remetente, $senhaRemetente);
     }
 
-    $mensagem += "`n`n`nEmail enviado por: $($env:UserName) via computador: $($env:ComputerName).";
+    $mensagem += "`n`n`nEmail enviado por: <b>$($env:UserName)</b> via computador: <b>$($env:ComputerName)</b>.";
 
     $message = New-Object System.Net.Mail.MailMessage;
     $message.subject = $titulo;
