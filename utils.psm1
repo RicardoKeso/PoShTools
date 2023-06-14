@@ -67,7 +67,7 @@ function Utils_EnviarEmail {
         $credencial = New-Object System.Net.NetworkCredential($remetente, $senhaRemetente);
     }
 
-    $mensagem += "`n`n`nEmail enviado por: ($($env:ComputerName + " \ " + $env:UserName)).";
+    $mensagem += "`n`n`nEmail enviado por: $($env:UserName) via computador: $($env:ComputerName).";
 
     $message = New-Object System.Net.Mail.MailMessage;
     $message.subject = $titulo;
@@ -195,6 +195,41 @@ function Utils_DescriptografarSenha {
     }
 }
 
+function Utils_PadronizarCaminhoUNC {
+
+    <#
+    .NOTES
+        Nome            : Funcao: PadronizarCaminhoUNC
+        Autor           : RicardoKeso (ricardokeso@ricardokeso.com)
+        Prerequisitos   : 
+        Criacao         : 20210502
+
+    .SYNOPSIS 
+
+    .DESCRIPTION
+        Garantir que o caminho UNC sempre finalize com uma contra-barra(barra invertida)
+
+    .EXAMPLE
+        PadronizarCaminhoUNC -caminho "\\pasta\compartilhada";
+
+    .LINK
+        https://www.ricardokeso.com
+        
+    #>
+
+    param(
+        [String]$caminho
+    );
+
+    $lastChar = $caminho.Substring($caminho.Length - 1)
+
+    if ($lastChar -ne '\') {
+        $caminho += '\'
+    }
+
+    return $caminho;
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
@@ -202,6 +237,7 @@ Export-ModuleMember -Function Utils_EnviarEmail;
 Export-ModuleMember -Function Utils_Compactar_7Zip;
 Export-ModuleMember -Function Utils_CriptografarSenha;
 Export-ModuleMember -Function Utils_DescriptografarSenha;
+Export-ModuleMember -Function Utils_PadronizarCaminhoUNC;
 
 <#
 
