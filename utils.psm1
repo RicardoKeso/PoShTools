@@ -230,6 +230,17 @@ function Utils_PadronizarCaminhoUNC {
     return $caminho;
 }
 
+function Utils_CriarArquivoVazio {
+    param(
+        [string]$caminho,
+        [int]$tamMB
+    );
+
+    $arquivo = [System.IO.File]::Create($caminho);
+    $arquivo.SetLength($($tamMB*1024*1024));
+    $arquivo.Close();
+}
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 Export-ModuleMember -Function Utils_GetSHA256;
@@ -238,6 +249,7 @@ Export-ModuleMember -Function Utils_Compactar_7Zip;
 Export-ModuleMember -Function Utils_CriptografarSenha;
 Export-ModuleMember -Function Utils_DescriptografarSenha;
 Export-ModuleMember -Function Utils_PadronizarCaminhoUNC;
+Export-ModuleMember -Function Utils_CriarArquivoVazio;
 
 <#
 
